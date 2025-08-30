@@ -3,7 +3,7 @@ An interactive visualization tool for `synergy-file-reader`-type microplate read
 
 ![image showing the plateviz application](https://github.com/Radium2000/plateviz/blob/main/src/plateviz/resources/main.png?raw=True)
 
-This tool uses `customtkinter` to run an application with intuitive controls to easily view your plate reader data. PlateViz does not cover all potential use cases and is not suited as basis for extensive customisations or in-depth analysis, rather think of it as a (beautiful) first step towards analyzing your growth data. At this moment `plateviz` supports single plate visualization for a 96-well plate.
+This tool uses `customtkinter` with a custom-built theme to run an application with intuitive controls to easily view your plate reader data. PlateViz does not cover all potential use cases and is not suited as basis for extensive customisations or in-depth analysis, rather think of it as a (beautiful) first step towards analyzing your growth data. At this moment `plateviz` supports single plate visualization for a 96-well plate.
 
 ## Getting Started
 
