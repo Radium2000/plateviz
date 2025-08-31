@@ -64,12 +64,14 @@ class PlateApp(ctk.CTk):
         self.main_frame.grid_columnconfigure(1, weight=1)
         
         # EXTRAS FRAME
-        self.extras_frame = ctk.CTkFrame(self.main_frame, corner_radius=6)
+        self.extras_frame = ctk.CTkFrame(self.main_frame, corner_radius=6,
+                                         height=325)
         self.extras_frame.grid(row=0, column=1, padx=10, pady=10, sticky='n')
         self.extras_label = ctk.CTkLabel(self.extras_frame, text='Channels',
                                          font=('Raleway', 16, 'bold'))
         self.extras_label.grid(row=0, column=0)
         self.extras_frame.grid_columnconfigure(0, weight=1)
+        self.extras_frame.grid_propagate(False)
         
         # CHANNEL CHECKBOXES
         self.checkboxes = {}
@@ -272,8 +274,8 @@ class PlateApp(ctk.CTk):
             params, _ = curve_fit(sigmoid, xdata=times, ydata=population, p0=init_params)
             goodness = r2_score(population, sigmoid(times, *params))
 
-            # Based on `r2_score` reject any fits with goodness of fit less than 0.7
-            if goodness>0.7:
+            # Based on `r2_score` reject any fits with goodness of fit less than 0.85
+            if goodness>0.85:
                 
                 # Remove 'not a sigmoidal curve' warning text if exists.
                 for text in self.ax.texts:
@@ -292,12 +294,12 @@ class PlateApp(ctk.CTk):
 
             else:
                 
-                # Display a warning on the plot if the fitting is below 0.7 goodness level.
+                # Display a warning on the plot if the fitting is below 0.85 goodness level.
                 self.ax.text(0.05, 0.9, 'not a sigmoidal curve', 
                          transform=self.ax.transAxes,
                          horizontalalignment='left', verticalalignment='center',
                          fontsize=12, color='#57311a',
-                         bbox=dict(facecolor='w', boxstyle='round'))
+                         bbox=dict(facecolor='w', boxstyle='round', alpha=0.5))
                 self.canvas.draw()
 
         except RuntimeError as e:
@@ -307,7 +309,7 @@ class PlateApp(ctk.CTk):
                          transform=self.ax.transAxes,
                          horizontalalignment='left', verticalalignment='center',
                          fontsize=12, color='#57311a',
-                         bbox=dict(facecolor='w', boxstyle='round'))
+                         bbox=dict(facecolor='w', boxstyle='round', alpha=0.5))
             self.canvas.draw()
 
     def on_int_switch(self):
