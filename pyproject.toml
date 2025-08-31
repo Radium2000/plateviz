@@ -10,7 +10,7 @@ authors = [
 ]
 description = "An interactive visualization tool for microplate reader growth data."
 readme = "README.md"
-requires-python = ">=3.0"
+requires-python = ">=3.9"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -31,7 +31,7 @@ dependencies= [
 ]
 
 [tool.setuptools.package-data]
-plateviz = ["*.json", "*.txt", "resources/*"]
+plateviz = ["*.json", "*.txt", "*.ttf", "resources/*.json", "resources/*.ttf"]
 
 [project.urls]
 Homepage = "https://github.com/Radium2000/plateviz"
