@@ -256,6 +256,9 @@ class PlateApp(ctk.CTk):
 
     def calc_growth_rate(self):
 
+        if self.ax.get_title()==BRAND:
+            return
+        
         for line in self.ax.get_lines():
             times, population = line.get_xdata(), line.get_ydata()
         
@@ -264,6 +267,7 @@ class PlateApp(ctk.CTk):
         # Guess for initial parameters for the sigmoidal curve.
         init_params = [max(population), np.median(times), 1, min(population)]
 
+        # To catch run time errors
         try:
             params, _ = curve_fit(sigmoid, xdata=times, ydata=population, p0=init_params)
             goodness = r2_score(population, sigmoid(times, *params))
@@ -289,14 +293,22 @@ class PlateApp(ctk.CTk):
             else:
                 
                 # Display a warning on the plot if the fitting is below 0.7 goodness level.
-                self.ax.text(0.05, 0.95, 'not a sigmoidal curve', 
+                self.ax.text(0.05, 0.9, 'not a sigmoidal curve', 
                          transform=self.ax.transAxes,
                          horizontalalignment='left', verticalalignment='center',
-                         fontsize=12, color='#57311a')
+                         fontsize=12, color='#57311a',
+                         bbox=dict(facecolor='w', boxstyle='round'))
                 self.canvas.draw()
 
         except RuntimeError as e:
-            print(e)
+            for text in self.ax.texts:
+                text.remove()
+            self.ax.text(0.05, 0.9, 'optimal parameters not found;\nmaybe not a sigmoid', 
+                         transform=self.ax.transAxes,
+                         horizontalalignment='left', verticalalignment='center',
+                         fontsize=12, color='#57311a',
+                         bbox=dict(facecolor='w', boxstyle='round'))
+            self.canvas.draw()
 
     def on_int_switch(self):
 
