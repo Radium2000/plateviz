@@ -93,7 +93,7 @@ The interactive mode switch is provided for ease of detailed viewing, in case yo
 
 This feature is only available for single growth curves; so multiwell plots and multi-channel plots are not supported for now. On pressing this button, the current growth curve is used as an input to fit to a [sigmoidal curve](https://en.wikipedia.org/wiki/Sigmoid_function). We use `scipy.optimize.curve_fit` and the resulting fit is displayed on the canvas with a dashed line. Since growth rate is the parameter of interest we output it to the text box on the right of the canvas with information about the well and channel. This enables you to copy the information if needed. Any subsequent calls for fit will be appended to this text box so you can copy all the information at the very end of your use. 
 
-**Goodness of fit:** To determine whether curve is actually a growth curve or some other function or just noise, we use a goodness of fit estimation to set a threshold. Currently we are using `r2_score` from `sklearn.metrics` to make this call. Any fit with an $R^2$ score lower than $0.7$ is rejected and a warning is displayed on the canvas.
+**Goodness of fit:** To determine whether curve is actually a growth curve or some other function or just noise, we use a goodness of fit estimation to set a threshold. Currently we are using `r2_score` from `sklearn.metrics` to make this call. Any fit with an $R^2$ score lower than $0.85$ is rejected and a warning is displayed on the canvas.
 
 ### Log scale
 
