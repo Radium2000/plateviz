@@ -1,7 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
 import seaborn as sns
 import customtkinter as ctk
+from tkextrafont import Font
 from importlib import resources
 from cycler import cycler
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -12,14 +14,14 @@ from synergy_file_reader import SynergyFile, SynergyPlate
 ctk.set_appearance_mode('light')
 sns.set_style('ticks')
 sns.set_context('talk', font_scale=0.8)
-plt.rcParams['font.family'] = 'Aller'
 
-def get_theme_path():
-    path = resources.files('plateviz') / 'resources' / 'Goldilocks.json'
-    return path
-ctk.set_default_color_theme(get_theme_path())
+font_path_rg = resources.files('plateviz') / 'resources' / 'NotoSans-Regular.ttf'
+fm.fontManager.addfont(font_path_rg)
+plt.rcParams['font.family'] = 'Noto Sans'
 
-VERSION = '0.1'
+theme_path = resources.files('plateviz') / 'resources' / 'Goldilocks.json'
+ctk.set_default_color_theme(theme_path)
+
 AUTHOR = 'Radium2000'
 BRAND = 'plateviz by Radium2000'
 
@@ -28,6 +30,13 @@ class PlateApp(ctk.CTk):
     def __init__(self, plate_data, channels, nick, cmap):
 
         super().__init__()
+
+        # Loading font for tkinter
+        font_rg = Font(file=font_path_rg, family='Noto Sans')
+        assert font_rg.is_font_available('Noto Sans')
+        assert 'Noto Sans' in font_rg.loaded_fonts()
+        assert font_rg.font_info(font_path_rg)[0]["copyright"]
+
         self.data = plate_data
         self.channels = np.array(channels)
         self.color_cycle = plt.cycler(color=['#3C73C5', '#fb4b4e', '#37b632', '#7D42E2'])
@@ -59,7 +68,7 @@ class PlateApp(ctk.CTk):
         self.extras_frame = ctk.CTkFrame(self.main_frame, corner_radius=6)
         self.extras_frame.grid(row=0, column=1, padx=10, pady=10, sticky='n')
         self.extras_label = ctk.CTkLabel(self.extras_frame, text='Channels',
-                                         font=('Aller', 16, 'bold'))
+                                         font=ctk.CTkFont('Noto Sans', 16, 'bold'))
         self.extras_label.grid(row=0, column=0)
         self.extras_frame.grid_columnconfigure(0, weight=1)
         
@@ -72,7 +81,7 @@ class PlateApp(ctk.CTk):
             self.checkboxes[channel] = ctk.CTkCheckBox(
                 self.extras_frame, 
                 text=self.nick_dict[channel],
-                font=('Aller', 14),
+                font=ctk.CTkFont('Noto Sans', 14, 'bold'),
                 variable=cb_state,
                 command=self.on_checkbox_select
             )
@@ -86,7 +95,7 @@ class PlateApp(ctk.CTk):
         # INTERACTIVE MODE SWITCH
         self.int_state = ctk.BooleanVar(value=False)
         self.interact_switch = ctk.CTkSwitch(self.extras_frame, text='Interactive',
-                                           font=('Aller', 16, 'bold'),
+                                           font=ctk.CTkFont('Noto Sans', 16, 'bold'),
                                            variable=self.int_state,
                                            command=self.on_int_switch
                                            )
@@ -95,7 +104,7 @@ class PlateApp(ctk.CTk):
         # MULTIWELL SWITCH
         self.mw_state = ctk.BooleanVar(value=False)
         self.multiwell_switch = ctk.CTkSwitch(self.extras_frame, text='Multi Well',
-                                           font=('Aller', 16, 'bold'), 
+                                           font=ctk.CTkFont('Noto Sans', 16, 'bold'), 
                                            variable=self.mw_state,
                                            command=self.on_multi_switch
                                            )
@@ -105,7 +114,7 @@ class PlateApp(ctk.CTk):
         clr_btn = ctk.CTkButton(
             self.extras_frame,
             text='Clear Plot',
-            font=('Aller', 16, 'bold'),
+            font=ctk.CTkFont('Noto Sans', 16, 'bold'),
             command=self.clear_frame
         )
         clr_btn.grid(row=len(self.channels)+3, column=0, padx=10, pady=10)
@@ -114,7 +123,7 @@ class PlateApp(ctk.CTk):
         self.growth_btn = ctk.CTkButton(
             self.extras_frame,
             text='Growth Rate',
-            font=('Aller', 16, 'bold'),
+            font=ctk.CTkFont('Noto Sans', 16, 'bold'),
             command=self.calc_growth_rate,
             state='disabled'
         )
@@ -129,7 +138,7 @@ class PlateApp(ctk.CTk):
         log_btn = ctk.CTkCheckBox(
             self.graph_frame,
             text = 'log scale',
-            font = ('Aller', 14),
+            font = ctk.CTkFont('Noto Sans', 16),
             variable=self.log_state,
             command=self.set_log_scale
         )
@@ -142,13 +151,13 @@ class PlateApp(ctk.CTk):
         # column labels
         for j in range(12):
             label = ctk.CTkLabel(self.button_frame, text=str(j+1),
-                                 font=('Aller', 14, 'bold'))
+                                 font=ctk.CTkFont('Noto Sans', 14, 'bold'))
             label.grid(row=0, column=j+1, padx=2, pady=2)
         
         # row labels
         for i in range(8):
             label = ctk.CTkLabel(self.button_frame, text=chr(65+i),
-                                 font=('Aller', 14, 'bold'))
+                                 font=ctk.CTkFont('Noto Sans', 14, 'bold'))
             label.grid(row=i+1, column=0, padx=2, pady=2)
         
         # WELL BUTTONS
@@ -189,13 +198,13 @@ class PlateApp(ctk.CTk):
         self.output_txt = ctk.CTkTextbox(
             self.graph_frame,
             wrap = 'word',
-            font=('Aller', 14),
+            font=ctk.CTkFont('Noto Sans', 14),
             state = 'disabled'
         )
         self.output_txt.grid(row=2, column=0, padx=10, pady=10, sticky='nw')
 
         self.tbox_label = ctk.CTkLabel(self.graph_frame, text='Growth Rates',
-                                        font=('Aller', 16, 'bold'))
+                                        font=ctk.CTkFont('Noto Sans', 16, 'bold'))
         self.tbox_label.grid(row=1, column=0, sticky='n')
 
     def on_checkbox_select(self):

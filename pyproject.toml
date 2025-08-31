@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "plateviz"
-version = "0.1"
+version = "0.1.0"
 authors = [
   { name="Rudra Kalra", email="rudrakalra20@gmail.com" },
 ]
@@ -27,7 +27,8 @@ dependencies= [
   "numpy",
   "matplotlib",
   "scikit-learn",
-  "scipy"
+  "scipy",
+  "tkextrafont"
 ]
 
 [tool.setuptools.package-data]
