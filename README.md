@@ -7,6 +7,12 @@ This tool uses `customtkinter` with a custom-built theme to run an application w
 
 ## Getting Started
 
+Install the package from your terminal using pip:
+
+```
+pip install plateviz
+```
+
 We assume that you are a user of `synergy-file-reader` and are familiar with loading plate reader data using it. If not, have a look at their [friendly documentation](https://synergy-file-reader.readthedocs.io/en/latest/). PlateViz is designed to be very intuitive so just go through this Getting Started section and start exploring. If you want more details about the features, scroll down to the [User Guide](#user-guide).
 
 ### Importing `plateviz` and launching the app
